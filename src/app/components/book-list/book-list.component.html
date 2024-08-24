@@ -1,0 +1,21 @@
+<mat-form-field appearance="fill">
+    <mat-label>Search Books</mat-label>
+    <input matInput (input)="onSearchChange($any($event.target).value)" placeholder="Enter book title or author">
+  </mat-form-field>
+  
+<div class="book-list-container">
+    <h1>Book List</h1>
+    <button mat-raised-button color="primary" (click)="openBookForm()">Add New Book</button>
+    <mat-list [@listAnimation]="filteredBooks.length">
+      <mat-list-item *ngFor="let book of filteredBooks">
+        <div class="book-info">
+          <h3>{{ book.title }}</h3>
+          <p>by {{ book.author }} ({{ book.year }})</p>
+          <button mat-button (click)="openBookDetails(book)">Details</button>
+          <button mat-icon-button color="warn" (click)="deleteBook(book.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </div>

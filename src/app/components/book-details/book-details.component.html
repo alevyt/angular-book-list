@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>{{ data.book.title }}</h2>
+<mat-dialog-content>
+  <p><strong>Author:</strong> {{ data.book.author }}</p>
+  <p><strong>Year:</strong> {{ data.book.year }}</p>
+  <p><strong>Description:</strong> {{ data.book.description }}</p>
+
+  <img *ngIf="data.book.coverImageUrl" [src]="data.book.coverImageUrl" alt="Book Cover" class="book-cover">
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="closeDialog()">Close</button>
+  <button mat-button color="primary" (click)="editBook()">Edit</button>
+  <button mat-icon-button color="warn" (click)="deleteBook()">
+    <mat-icon>delete</mat-icon>
+  </button>
+</mat-dialog-actions>

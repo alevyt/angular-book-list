@@ -132,6 +132,10 @@ export class BookService {
     return [...this.books];
   }
 
+  getBookById(id: string): Book | undefined {
+    return this.books.find(book => book.id === id);
+  }
+
   addBook(book: Book): void {
     book.id = (this.books.length + 1).toString();
     this.books.push(book);

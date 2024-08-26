@@ -1,21 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Book } from '../../models/book.model';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookService {
-  private books: Book[] = [
+  private initialBooks: Book[] = [
     {
-      id: '1',
-      title: 'Metamorphoses',
-      author: 'Ovid',
-      year: 8,
-      description: 'This irresistible epic poem has an unusual structure: it is comprised of a series of short stories, linked by the theme of transformation, which flow seamlessly into one another.',
-      coverImageUrl: 'https://www.oxfordscholastica.com/wp-content/uploads/2019/01/ovid-e1546957248923.jpg'
-    },
-    {
-      id: '2',
+      id: 2,
       title: 'Hamlet',
       author: 'William Shakespeare',
       year: 1599,
@@ -23,7 +16,7 @@ export class BookService {
       coverImageUrl: 'https://www.oxfordscholastica.com/wp-content/uploads/2019/01/Hamlet-Bloomsbury-e1546956897492.jpg'
     },
     {
-      id: '3',
+      id: 3,
       title: 'Pride and Prejudice',
       author: 'Jane Austen',
       year: 1813,
@@ -31,7 +24,7 @@ export class BookService {
       coverImageUrl: 'https://www.oxfordscholastica.com/wp-content/uploads/2019/01/Pride-and-Prejudice-Simon-Schuster-400x516.jpg'
     },
     {
-      id: '4',
+      id: 4,
       title: 'Jane Eyre',
       author: 'Charlotte Brontë',
       year: 1847,
@@ -39,7 +32,7 @@ export class BookService {
       coverImageUrl: 'https://www.oxfordscholastica.com/wp-content/uploads/2019/01/Jane-Eyre-Simon-Schuster-672x1024.jpg'
     },
     {
-      id: '5',
+      id: 5,
       title: 'Wuthering Heights',
       author: 'Emily Brontë',
       year: 1847,
@@ -47,7 +40,7 @@ export class BookService {
       coverImageUrl: 'https://www.oxfordscholastica.com/wp-content/uploads/2019/01/Wuthering-Heights-Faber-e1546957035262.jpg'
     },
     {
-      id: '6',
+      id: 6,
       title: 'Great Expectations',
       author: 'Charles Dickens',
       year: 1860,
@@ -55,7 +48,7 @@ export class BookService {
       coverImageUrl: 'https://www.oxfordscholastica.com/wp-content/uploads/2019/01/Great-Expectations-Penguin-e1546956885284.jpg'
     },
     {
-      id: '7',
+      id: 7,
       title: 'Tess of the d’Urbervilles',
       author: 'Thomas Hardy',
       year: 1891,
@@ -63,7 +56,7 @@ export class BookService {
       coverImageUrl: 'https://www.oxfordscholastica.com/wp-content/uploads/2019/01/Tess-of-the-dUrbervilles-Penguin-e1546956985187.jpg'
     },
     {
-      id: '8',
+      id: 8,
       title: 'Dubliners',
       author: 'James Joyce',
       year: 1914,
@@ -71,7 +64,7 @@ export class BookService {
       coverImageUrl: 'https://www.oxfordscholastica.com/wp-content/uploads/2019/01/Dubliners-Penguin-e1546956868359.jpg'
     },
     {
-      id: '9',
+      id: 9,
       title: 'The Great Gatsby',
       author: 'F. Scott Fitzgerald',
       year: 1925,
@@ -79,7 +72,7 @@ export class BookService {
       coverImageUrl: 'https://www.oxfordscholastica.com/wp-content/uploads/2019/01/The-Great-Gatsby-Penguin-e1546957016135.jpg'
     },
     {
-      id: '10',
+      id: 10,
       title: 'Of Mice and Men',
       author: 'John Steinbeck',
       year: 1937,
@@ -87,7 +80,7 @@ export class BookService {
       coverImageUrl: 'https://www.oxfordscholastica.com/wp-content/uploads/2019/01/Of-Mice-and-Men-Penguin-628x1024.jpg'
     },
     {
-      id: '11',
+      id: 11,
       title: 'Rebecca',
       author: 'Daphne du Maurier',
       year: 1938,
@@ -95,7 +88,7 @@ export class BookService {
       coverImageUrl: 'https://www.oxfordscholastica.com/wp-content/uploads/2019/01/Rebecca-Waterstones-e1546956975822.jpg'
     },
     {
-      id: '12',
+      id: 12,
       title: 'Nineteen Eighty-Four',
       author: 'George Orwell',
       year: 1949,
@@ -103,7 +96,7 @@ export class BookService {
       coverImageUrl: 'https://www.oxfordscholastica.com/wp-content/uploads/2019/01/1984-Penguin-e1546956854124.jpg'
     },
     {
-      id: '13',
+      id: 13,
       title: 'To Kill A Mockingbird',
       author: 'Harper Lee',
       year: 1960,
@@ -111,7 +104,7 @@ export class BookService {
       coverImageUrl: 'https://www.oxfordscholastica.com/wp-content/uploads/2019/01/To-Kill-A-Mockingbird-HarperCollins-e1546957027545.jpg'
     },
     {
-      id: '14',
+      id: 14,
       title: 'The Color Purple',
       author: 'Alice Walker',
       year: 1982,
@@ -119,7 +112,7 @@ export class BookService {
       coverImageUrl: 'https://www.oxfordscholastica.com/wp-content/uploads/2019/01/The-Color-Purple-Barnes-and-Noble-e1546956996660.jpg'
     },
     {
-      id: '15',
+      id: 15,
       title: 'The God of Small Things',
       author: 'Arundhati Roy',
       year: 1997,
@@ -128,27 +121,55 @@ export class BookService {
     }
   ];
 
-  getBooks(): Book[] {
-    return [...this.books];
+  // BehaviorSubject to manage the current list of books
+  private booksSubject: BehaviorSubject<Book[]> = new BehaviorSubject<Book[]>(this.initialBooks);
+
+  // Observable for components to subscribe to
+  public books$: Observable<Book[]> = this.booksSubject.asObservable();
+
+  getBookById(id: number): Book | undefined {
+    return this.booksSubject.getValue().find(book => book.id === id);
   }
 
-  getBookById(id: string): Book | undefined {
-    return this.books.find(book => book.id === id);
+  // addBook(newBook: Book): void {
+  //   const currentBooks = this.booksSubject.getValue();
+  //   const updatedBooks = [...currentBooks, newBook];
+  //   this.booksSubject.next(updatedBooks);
+  // }
+
+  addBook(newBook: Omit<Book, 'id'>): void {
+    const currentBooks = this.booksSubject.getValue();
+  
+    // Generate a new unique ID
+    const newId = currentBooks.length ? Math.max(...currentBooks.map(book => book.id)) + 1 : 1;
+  
+    // Create the book with the generated ID
+    const bookWithId: Book = { ...newBook, id: newId };
+  
+    // Add the new book to the list and emit the updated list
+    const updatedBooks = [...currentBooks, bookWithId];
+    this.booksSubject.next(updatedBooks);
   }
 
-  addBook(book: Book): void {
-    book.id = (this.books.length + 1).toString();
-    this.books.push(book);
-  }
+  editBook(updatedBook: Book): void {
+    const currentBooks = this.booksSubject.getValue();
+    const bookIndex = currentBooks.findIndex(book => {
 
-  updateBook(updatedBook: Book): void {
-    const index = this.books.findIndex(book => book.id === updatedBook.id);
-    if (index !== -1) {
-      this.books[index] = updatedBook;
+      console.log('service edit', updatedBook.id, book.id)
+      return book.id === updatedBook.id;
+
+    });
+    
+    if (bookIndex > -1) {
+      currentBooks[bookIndex] = updatedBook;
+      this.booksSubject.next([...currentBooks]); // Emit the updated list
     }
   }
 
-  deleteBook(id: string): void {
-    this.books = this.books.filter(book => book.id !== id);
+  deleteBook(id: number): void {
+    console.log('service delete');
+    const currentBooks = this.booksSubject.getValue();
+    const updatedBooks = currentBooks.filter(book => book.id !== id);
+    this.booksSubject.next(updatedBooks); // Emit the updated list
   }
 }

@@ -25,6 +25,14 @@
       <textarea matInput formControlName="description" required></textarea>
       <mat-error *ngIf="bookForm.get('description')?.invalid">Description is required</mat-error>
     </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Cover Image URL</mat-label>
+      <input matInput formControlName="coverImageURL">
+      <mat-error *ngIf="bookForm.get('coverImageUrl')?.hasError('invalidUrl')">
+        Please enter a valid URL.
+      </mat-error>
+    </mat-form-field>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">

@@ -55,7 +55,10 @@ export class BookListComponent implements OnInit {
   constructor(private bookService: BookService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.books = this.bookService.getBooks();
+    this.bookService.books$.subscribe((books) => {
+      console.log('update');
+      this.books = books;
+    });
     this.filteredBooks = this.books;
 
     this.searchSubject.pipe(
@@ -85,17 +88,17 @@ export class BookListComponent implements OnInit {
     }).afterClosed().subscribe(result => {
       if (result) {
         if (book) {
-          this.bookService.updateBook(result);
+          this.bookService.editBook(result);
         } else {
           this.bookService.addBook(result);
         }
-        this.filteredBooks = this.books = this.bookService.getBooks();
+        this.filteredBooks = this.books;
       }
     });
   }
 
-  deleteBook(id: string): void {
+  deleteBook(id: number): void {
     this.bookService.deleteBook(id);
-    this.filteredBooks = this.books = this.bookService.getBooks();
+    this.filteredBooks = this.books;
   }
 }

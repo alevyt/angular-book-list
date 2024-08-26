@@ -12,8 +12,5 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button (click)="closeDialog()">Close</button>
-  <button mat-button color="primary" (click)="editBook()">Edit</button>
-  <button mat-icon-button color="warn" (click)="deleteBook()">
-    <mat-icon>delete</mat-icon>
-  </button>
+  <button mat-button color="primary" (click)="editBook(data.book)">Edit</button>
 </mat-dialog-actions>

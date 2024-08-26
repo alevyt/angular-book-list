@@ -1,10 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Book } from '../../models/book.model';
+import { urlValidator } from '../../shared/validators/URLValidator';
 
 @Component({
   selector: 'app-book-form',
@@ -30,10 +31,14 @@ export class BookFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.bookForm = this.fb.group({
-      title: [this.data.book?.title || '', Validators.required],
-      author: [this.data.book?.author || '', Validators.required],
-      year: [this.data.book?.year || '', [Validators.required, Validators.pattern('^[0-9]{4}$')]],
-      description: [this.data.book?.description || '', Validators.required]
+      id: new FormControl<number>(this.data.book?.id || 1),
+      title: new FormControl<string>(this.data.book?.title || '', { nonNullable: true, validators: Validators.required }),
+      author: new FormControl<string>(this.data.book?.author || '', { nonNullable: true, validators: Validators.required }),
+      year: new FormControl<number>(this.data.book?.year || 0, { nonNullable: true, validators: [Validators.required, Validators.min(0)] }),
+      description: new FormControl<string>(this.data.book?.description || '', { nonNullable: true, validators: Validators.required }),
+      coverImageUrl: new FormControl<string>(this.data.book?.coverImageUrl || '', {
+        validators: [urlValidator()]
+      })
     });
   }
 

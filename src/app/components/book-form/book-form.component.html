@@ -4,34 +4,46 @@
     <mat-form-field appearance="fill">
       <mat-label>Title</mat-label>
       <input matInput formControlName="title" required>
-      <mat-error *ngIf="bookForm.get('title')?.invalid">Title is required</mat-error>
+      @if(bookForm.get('title')?.invalid){
+        <mat-error>Title is required</mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Author</mat-label>
       <input matInput formControlName="author" required>
-      <mat-error *ngIf="bookForm.get('author')?.invalid">Author is required</mat-error>
+      @if(bookForm.get('author')?.invalid){
+        <mat-error>Author is required</mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Year of Publication</mat-label>
       <input matInput formControlName="year" required>
-      <mat-error *ngIf="bookForm.get('year')?.hasError('required')">Year is required</mat-error>
-      <mat-error *ngIf="bookForm.get('year')?.hasError('pattern')">Enter a valid year</mat-error>
+      @if(bookForm.get('year')?.hasError('required')){
+        <mat-error>Year is required</mat-error>
+      }
+      @if(bookForm.get('year')?.hasError('pattern')){
+        <mat-error>Enter a valid year</mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Description</mat-label>
       <textarea matInput formControlName="description" required></textarea>
-      <mat-error *ngIf="bookForm.get('description')?.invalid">Description is required</mat-error>
+      @if(bookForm.get('description')?.invalid){
+        <mat-error>Description is required</mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Cover Image URL</mat-label>
       <input matInput formControlName="coverImageURL">
-      <mat-error *ngIf="bookForm.get('coverImageURL')?.hasError('invalidUrl')">
-        Please enter a valid URL.
-      </mat-error>
+      @if(bookForm.get('coverImageURL')?.hasError('invalidUrl')){
+        <mat-error>
+          Please enter a valid URL.
+        </mat-error>
+      }
     </mat-form-field>
   </form>
 </mat-dialog-content>

@@ -1,11 +1,12 @@
 <h2 mat-dialog-title>{{ data.book.title }}</h2>
 <mat-dialog-content>
-  <img
-    *ngIf="data.book.coverImageURL"
-    [src]="data.book.coverImageURL"
-    alt="Book Cover"
-    class="book-cover"
-  />
+  @if(data.book.coverImageURL){
+    <img
+      [src]="data.book.coverImageURL"
+      alt="Book Cover"
+      class="book-cover"
+    />
+  }
   <p><strong>Author:</strong> {{ data.book.author }}</p>
   <p><strong>Year:</strong> {{ data.book.year }}</p>
   <p><strong>Description:</strong> {{ data.book.description }}</p>

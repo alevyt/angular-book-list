@@ -12,15 +12,19 @@
     Add New Book
   </button>
   <mat-list [@listAnimation]="filteredBooks.length">
-    <mat-list-item *ngFor="let book of filteredBooks">
-      <div class="book-info">
-        <h3>{{ book.title }}</h3>
-        <p>by {{ book.author }} ({{ book.year }})</p>
-        <button mat-button (click)="openBookDetails(book)">Details</button>
-        <button class="button-delete" mat-icon-button color="warn" (click)="deleteBook(book.id)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
-    </mat-list-item>
+    @for(book of filteredBooks; track book.id){
+      <mat-list-item>
+        <div class="book-info">
+          <h3>{{ book.title }}</h3>
+          <p>by {{ book.author }} ({{ book.year }})</p>
+          <button mat-button (click)="openBookDetails(book)">Details</button>
+          <button class="button-delete" mat-icon-button color="warn" (click)="deleteBook(book.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </mat-list-item>
+    } @empty {
+      No books found
+    }
   </mat-list>
 </div>

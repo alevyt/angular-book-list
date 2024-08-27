@@ -37,7 +37,6 @@ export class BookDetailsComponent {
       data: { book }
     }).afterClosed().subscribe(result => {
       if (result) {
-        console.log('result', result);
         if (book) {
           this.bookService.editBook(result);
         } else {

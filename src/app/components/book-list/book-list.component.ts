@@ -56,10 +56,8 @@ export class BookListComponent implements OnInit {
 
   ngOnInit(): void {
     this.bookService.books$.subscribe((books) => {
-      console.log('update');
-      this.books = books;
+      this.filteredBooks = this.books = books;
     });
-    this.filteredBooks = this.books;
 
     this.searchSubject.pipe(
       debounceTime(300),

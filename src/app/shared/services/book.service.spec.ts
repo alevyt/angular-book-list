@@ -27,7 +27,7 @@ describe('BookService', () => {
       author: 'Test Author',
       year: 2024,
       description: 'This is a test description.',
-      coverImageUrl: 'https://example.com/test-cover.jpg',
+      coverImageURL: 'https://example.com/test-cover.jpg',
     };
 
     service.addBook(newBook);
@@ -42,14 +42,14 @@ describe('BookService', () => {
       author: 'Updated Author',
       year: 2024,
       description: 'This is an updated description.',
-      coverImageUrl: 'https://example.com/updated-cover.jpg',
+      coverImageURL: 'https://example.com/updated-cover.jpg',
     };
 
-    service.updateBook(updatedBook);
+    service.editBook(updatedBook);
     const book = service.getBookById('1');
     expect(book?.title).toBe('Updated Title');
     expect(book?.author).toBe('Updated Author');
-    expect(book?.coverImageUrl).toBe('https://example.com/updated-cover.jpg');
+    expect(book?.coverImageURL).toBe('https://example.com/updated-cover.jpg');
   });
   
   it('should remove a book from the list', () => {

@@ -17,7 +17,7 @@
         <h3>{{ book.title }}</h3>
         <p>by {{ book.author }} ({{ book.year }})</p>
         <button mat-button (click)="openBookDetails(book)">Details</button>
-        <button mat-icon-button color="warn" (click)="deleteBook(book.id)">
+        <button class="button-delete" mat-icon-button color="warn" (click)="deleteBook(book.id)">
           <mat-icon>delete</mat-icon>
         </button>
       </div>
